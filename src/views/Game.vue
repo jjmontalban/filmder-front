@@ -36,7 +36,7 @@ export default {
   
     data: () => ({
       // Wordpress Posts Endpoint
-    moviesUrl: "http://localhost/wp-vue/wordpress/wp-json/wp/v2/movies?per_page=20&orderby=rand",
+    moviesUrl: "https://filmder.jjmontalban.com/wp-json/wp/v2/movies?per_page=20&orderby=rand",
     queue: [],
     movies: [],
     offset: 0,

@@ -1,28 +1,48 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <app-navbar></app-navbar>
+    <v-main>
+      <vue-page-transition name="fade" class="px-15">
+        <router-view></router-view>
+      </vue-page-transition>
+    </v-main>
+    <app-footer></app-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 export default {
   name: 'App',
+  
   components: {
-    HelloWorld
-  }
-}
+    'app-navbar': Navbar,
+    'app-footer': Footer,
+  },
+
+  data: () => ({
+    //
+  }),
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+@font-face {
+  font-family: "Jost-Regular";
+  src: local("Jost-Regular"),
+   url(./fonts/Jost-Regular.ttf) format("truetype");
 }
+
+*{
+    font-family: 'Jost-Regular', sans-serif;
+}
+
+.quote {
+  font-style: italic;
+}
+
 </style>

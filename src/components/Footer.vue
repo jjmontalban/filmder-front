@@ -1,7 +1,7 @@
 <template>
-    <v-footer color="black" class="text-center">
+    <v-footer color="black">
         <v-col class="text-center white--text" cols="12">
-            Copyright &copy; MovieMatch 2022
+            {{ new Date().getFullYear() }} © Dev by <a href="https://jjmontalban.github.io" target="_blank">JJMontalban</a>
         </v-col>
     </v-footer>
 </template>

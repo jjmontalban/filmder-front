@@ -1,28 +1,28 @@
 <template>
-    <v-row class="text-center">
-      <Tinder ref="tinder" key-name="title" :queue.sync="queue" :offset-y="1" allow-down @submit="onSubmit">
-              
+  <v-container>
+
+      <Tinder class="text-center" ref="tinder" key-name="title" :queue.sync="queue" :offset-y="1" allow-down @submit="onSubmit">    
             <template slot-scope="movie">
                 {{ movie.data.title }}
-                
-              <v-img
-                    :aspect-ratio="16/9" class="pic" 
+              <img
+                    class="pic" 
                     :style="{ 'background-image': `url(${movie.data.img})` }"/>
             </template>
             
             <img class="nope-pointer" slot="nope" src="../assets/nope.png">
             <img class="super-pointer" slot="super" src="../assets/super.png">
             <img class="down-pointer" slot="down" src="../assets/down.png">
-            <img class="like-pointer" slot="like" src="../assets/like.png">
-           
+            <img class="like-pointer" slot="like" src="../assets/like.png"> 
       </Tinder>
+
       <div class="btns">
-        <img src="../assets/nope.png" @click="decide('nope')">
-        <img src="../assets/super.png" @click="decide('super')">
-        <img src="../assets/down.png" @click="decide('down')">
-        <img src="../assets/like.png" @click="decide('like')">
+          <img src="../assets/nope.png" @click="decide('nope')">
+          <img src="../assets/super.png" @click="decide('super')">
+          <img src="../assets/down.png" @click="decide('down')">
+          <img src="../assets/like.png" @click="decide('like')">
       </div>
-    </v-row>
+
+  </v-container>  
 </template>
 
 <script>
@@ -120,11 +120,15 @@ body {
   left: 0;
   right: 20px;
   margin: auto;
-  width:400px;
-  height: 600px;
+  width:20%;
+  min-width:312px;
+  height: 80%;
 }
 
-.tinder-card { border-radius: 0px !important; }
+.tinder-card { 
+  border-radius: 0px !important;
+  
+}
 
 
 .nope-pointer,

@@ -31,14 +31,17 @@ export default {
 
 <style>
 
-@font-face {
-  font-family: "Jost-Regular";
-  src: local("Jost-Regular"),
-   url(./fonts/Jost-Regular.ttf) format("truetype");
-}
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
 
 *{
-    font-family: 'Jost-Regular', sans-serif;
+    font-family: 'Jost', sans-serif;
+    align-content: center;
+    
+}
+
+a {
+  text-decoration: none;
+  color: rgb(210, 42, 42)  !important;
 }
 
 .quote {

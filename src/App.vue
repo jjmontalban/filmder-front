@@ -1,13 +1,15 @@
 <template>
-  <v-app>
-    <app-navbar></app-navbar>
-    <v-main>
-      <vue-page-transition name="fade" class="px-15">
-        <router-view></router-view>
-      </vue-page-transition>
-    </v-main>
-    <app-footer></app-footer>
-  </v-app>
+    <html>
+      <v-app>
+        <app-navbar></app-navbar>
+        <v-main>
+          <vue-page-transition name="fade" class="px-15">
+            <router-view></router-view>
+          </vue-page-transition>
+        </v-main>
+        <app-footer></app-footer>
+      </v-app>
+    </html>
 </template>
 
 <script>
@@ -24,7 +26,7 @@ export default {
   },
 
   data: () => ({
-    scrollPosition: null
+
   }),
 };
 </script>
@@ -43,10 +45,6 @@ a {
   text-decoration: none;
   color: rgb(210, 42, 42)  !important;
 }
-
-.escrol{
- overflow-y: auto;
- }
 
 .quote {
   font-style: italic;

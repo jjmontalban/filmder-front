@@ -7,8 +7,6 @@ import Instructions from '../views/Instructions.vue'
 import Game from '../views/Game.vue'
 
 Vue.use(VueRouter)
-
-
 const routes = [
   {
     path: '/',

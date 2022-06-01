@@ -24,7 +24,7 @@ export default {
   },
 
   data: () => ({
-    //
+    scrollPosition: null
   }),
 };
 </script>
@@ -36,7 +36,7 @@ export default {
 *{
     font-family: 'Jost', sans-serif;
     align-content: center;
-    
+
 }
 
 a {
@@ -44,8 +44,11 @@ a {
   color: rgb(210, 42, 42)  !important;
 }
 
+.escrol{
+ overflow-y: auto;
+ }
+
 .quote {
   font-style: italic;
 }
-
 </style>

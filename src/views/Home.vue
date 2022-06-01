@@ -7,7 +7,7 @@
             <br><br>
             <h2 class="headline font-weight-bold mb-3">Let's start!</h2>
             
-            <v-btn link exact :to="{ name: 'game' }" icon width="auto" height="auto" class="ma-3" elevation="10">
+            <v-btn link exact :to="{ name: 'instructions' }" icon width="auto" height="auto" class="ma-3" elevation="10">
                 <v-avatar size="150">
                     <img :src="require('../assets/rabbit-icon.png')">
                 </v-avatar>

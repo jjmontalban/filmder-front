@@ -23,3 +23,8 @@
     name: 'About'
   }
 </script>
+<style scoped>
+ template {
+   overflow-y:scroll;
+ }
+</style>

@@ -3,9 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Contact from '../views/Contact.vue'
+import Instructions from '../views/Instructions.vue'
 import Game from '../views/Game.vue'
 
 Vue.use(VueRouter)
+
 
 const routes = [
   {
@@ -28,6 +30,11 @@ const routes = [
     name: 'contact',
     component: Contact
   },
+  {
+    path: '/instructions',
+    name: 'instructions',
+    component: Instructions
+  }
 ]
 
 const router = new VueRouter({

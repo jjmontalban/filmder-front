@@ -1,50 +1,57 @@
 <template>
   <v-container>
-
-      <Tinder class="text-center" ref="tinder" key-name="title" :queue.sync="queue" :offset-y="1" allow-down @submit="onSubmit">    
-            <template slot-scope="movie">
-                {{ movie.data.title }}
-              <img
-                    class="pic" 
-                    :style="{ 'background-image': `url(${movie.data.img})` }"/>
-            </template>
-            
-            <img class="nope-pointer" slot="nope" src="../assets/nope.png">
-            <img class="super-pointer" slot="super" src="../assets/super.png">
-            <img class="down-pointer" slot="down" src="../assets/down.png">
-            <img class="like-pointer" slot="like" src="../assets/like.png"> 
-      </Tinder>
-
-      <div class="btns">
-          <img src="../assets/nope.png" @click="decide('nope')">
-          <img src="../assets/super.png" @click="decide('super')">
-          <img src="../assets/down.png" @click="decide('down')">
-          <img src="../assets/like.png" @click="decide('like')">
-      </div>
-
+      <transition name="fade" mode="out-in">
+          <div key=1 v-if="ok">
+              <tinder class="text-center" ref="tinder" key-name="title" :queue.sync="queue" :offset-y="1" allow-down @submit="onSubmit">
+                  <template slot-scope="movie">
+                      {{ movie.data.title }}
+                      <img class="pic" :style="{ 'background-image': `url(${movie.data.img})` }"/>
+                  </template>
+                  <img class="nope-pointer" slot="nope" src="../assets/nope.png">
+                  <img class="super-pointer" slot="super" src="../assets/super.png">
+                  <img class="down-pointer" slot="down" src="../assets/down.png">
+                  <img class="like-pointer" slot="like" src="../assets/like.png"> 
+              </tinder>
+              <div class="btns">
+                  <img src="../assets/nope.png" @click="decide('nope')">
+                  <img src="../assets/super.png" @click="decide('super')">
+                  <img src="../assets/down.png" @click="decide('down')">
+                  <img src="../assets/like.png" @click="decide('like')">
+              </div>
+          </div>
+          <div class="text-center" v-else>
+              <h1>Listado de peliculas</h1>
+              <div v-for="movie in movies" v-bind:key="movie.id">
+                  {{ movie.title }}<br>{{ movie.rating }} - {{ movie.user_rating }}
+              </div>
+          </div>
+      </transition>
   </v-container>  
 </template>
 
 <script>
+/* eslint-disable */
 import Tinder from "vue-tinder";
 import axios from "axios";
 
 export default {
   
   name: "Game",
-  components: { Tinder },
+
+  components: { 'tinder': Tinder },
   
     data: () => ({
       // Wordpress Posts Endpoint
-    moviesUrl: "https://filmder.jjmontalban.com/wp-json/wp/v2/movies?per_page=20&orderby=rand",
-    queue: [],
-    movies: [],
-    offset: 0,
-    history: [],
-    total_pages: 0,
-    page_number: 0, 
-    pos: 0,
-  }),
+      moviesUrl: "https://filmder.jjmontalban.com/wp-json/wp/v2/movies?per_page=10&orderby=rand",
+      queue: [],
+      movies: [],
+      offset: 0,
+      history: [],
+      total_pages: 0,
+      page_number: 0,
+      pos: 0,
+      ok: true
+    }),
 
   created() {
     this.mock();
@@ -52,35 +59,35 @@ export default {
 
   methods: {
 
-        mock(count = 20) {
-        const list = [];
+        mock(count = 10) {
+          const list = [];
 
-        axios
+          axios
               .get(this.moviesUrl)
               .then(response => {
                 for (let j = 0; j < count; j++) {
-                  list.push({               img: response.data[this.offset].movie_image,
-                                            title: response.data[this.offset].title.rendered,
-                                            rating: response.data[this.offset].movie_data.rating[0],
-                                            original: response.data[this.offset].movie_data.original_title[0],
-                                            votes: response.data[this.offset].movie_data.vote_count[0],
-                                            vote_avg: response.data[this.offset].movie_data.vote_avg[0],
-                                              });
-                                this.offset++;
-                          }
-                          this.queue = this.queue.concat(list);
-                          this.movies = this.movies.concat(list);
-                          this.offset = 0;
+                    list.push({  
+                          img: response.data[this.offset].movie_image,
+                          title: response.data[this.offset].title.rendered,
+                          rating: response.data[this.offset].movie_data.rating[0],
+                          original: response.data[this.offset].movie_data.original_title[0],
+                          votes: response.data[this.offset].movie_data.vote_count[0],
+                          vote_avg: response.data[this.offset].movie_data.vote_avg[0],
+                          });
+                    this.offset++;
+                    }
 
-                    }).catch(error => { console.log(error); });                
+                    this.queue = this.queue.concat(list);
+                    this.movies = this.movies.concat(list);
+                    this.offset = 0;
+
+                  }).catch(error => { console.log(error); });                
         },
 
-      onSubmit(item) {
-            if(this.queue.length == 0){  
-                this.$router.push('/result');
-                
-            }
-            if (item['type'] === "like") { 
+        onSubmit(item) {
+          
+          if (item['type'] === "like") 
+            { 
               this.movies[this.offset]['user_rating'] = 6; 
             } 
             else if(item['type'] === "nope") 
@@ -91,6 +98,13 @@ export default {
             { 
               this.movies[this.offset]['user_rating'] = 8; 
             }
+            else if(item['type'] === "down")
+            {
+              this.movies[this.offset]['user_rating'] = 0;
+            }
+
+            if(this.queue.length == 0) { this.ok = false; }
+
             this.offset++;
         },
 
@@ -218,4 +232,15 @@ body {
 .btns img:nth-last-child(1) {
   margin-right: 0;
 }
+
+
+/* Transtions */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0
+}
+
 </style>

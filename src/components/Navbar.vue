@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center spacing-playground pa-6" fluid>
+  <div class="text-center spacing-playground pa-6" >
 
     <v-btn  link exact :to="{ name: 'home' }" class="mx-2" fab x-large color="white">
         <v-img

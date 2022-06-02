@@ -21,7 +21,7 @@
           </div>
           <div class="text-center" v-else>
               <div v-for="movie in movies" v-bind:key="movie.id">
-                  <img :src="movie.img" width="15%" alt="Image Movie">
+                  <img :src="movie.img" width="25%" alt="Image Movie">
                   <h2>{{ movie.original }}</h2>
                   <span>in spanish</span>
                   <h3>{{ movie.title }}</h3>
@@ -69,12 +69,25 @@
                   <br>
                   <br>
               </div>
-
-              <div>
-                  ESTE ES EL RESULTADO FINAL
-                  {{ movies['result']  }}
-                  DE UN TOTAL DE {{ movies['total'] }} pelis rateradas
+              <h1>Our Film Afinnity</h1>
+              <div v-if="movies.total < this.cont/2">
+                  <span class="quote">Sorry but you need to see more films!</span>
               </div>
+              <div v-else>
+                  <span class="quote" v-if="movies.result < 0">
+                     We don't have the same idea of what cinema is. <a  
+                     ref="https://www.complex.com/pop-culture/2019/10/martin-scorsese-on-marvel-movies">  
+                     Marvel movies is cinema for you?</a>
+                  </span>
+                  <span class="quote" v-else-if="(movies.result > 0) && (movies.result < 3)" >
+                     Not bad. I leave you my references so you can learn <a target="_blank" 
+                     ref="https://www.imdb.com/user/ur22137408/watchlist?sort=your_rating%2Cdesc">
+                     something.</a>
+                    </span>
+                  <span v-else class="quote">
+                    I like your style. <a target="_blank" ref="https://www.imdb.com/user/ur22137408/watchlist?sort=your_rating%2Cdesc">You can check all my favourite movies for ever.</a> 
+                  </span>
+            </div>
           </div>
       </transition>
   </v-container>  
@@ -93,6 +106,7 @@ export default {
   
     data: () => ({
       // Wordpress Posts Endpoint
+      count: 10,
       moviesUrl: "https://filmder.jjmontalban.com/wp-json/wp/v2/movies?per_page=10&orderby=rand",
       queue: [],
       movies: [],
@@ -101,7 +115,7 @@ export default {
       total_pages: 0,
       page_number: 0,
       pos: 0,
-      ok: true
+      ok: true,
     }),
 
   created() {
@@ -110,13 +124,13 @@ export default {
 
   methods: {
 
-        mock(count = 10) {
+        mock() {
           const list = [];
 
           axios
               .get(this.moviesUrl)
               .then(response => {
-                for (let j = 0; j < count; j++) {
+                for (let j = 0; j < this.count; j++) {
                     list.push({  
                           img: response.data[this.offset].movie_image,
                           title: response.data[this.offset].title.rendered,
@@ -130,9 +144,9 @@ export default {
 
                     this.queue = this.queue.concat(list);
                     this.movies = this.movies.concat(list);
+                    this.offset = 0;
                     this.movies['result'] = 0;
                     this.movies['total'] = 0;
-                    this.offset = 0;
 
                   }).catch(error => { console.log(error); });                
         },
@@ -141,8 +155,9 @@ export default {
             if(this.queue.length == 0){ 
               this.ok = false; 
             }
-            this.movies[this.offset]['user_rating'] = item['type'];
             
+            this.movies[this.offset]['user_rating'] = item['type'];
+
             switch(this.movies[this.offset]['user_rating'])
             {
                   
@@ -161,7 +176,7 @@ export default {
                         break;
                   
                   case 'like':
-                        if(this[this.offset]['rating'] <= 5){
+                        if(this.movies[this.offset]['rating'] <= 5){
                             this.movies['result'] = this.movies['result'] - 1;
                             this.movies['total'] = this.movies['total'] + 1;
                         }
@@ -190,6 +205,8 @@ export default {
                         }
 
             }
+            console.log("el resultado va siendo", this.movies['result']);
+            console.log("y el total de ratings", this.movies['total']);
             this.offset++;
         },
 

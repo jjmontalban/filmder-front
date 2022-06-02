@@ -48,7 +48,7 @@
                     </v-avatar>
                     <p>Also have the possibility to use the buttons under the film poster</p>
                 </v-card>
-                <v-row>
+                <v-row class="mb-6" justify="center" no-gutters>
                             <v-col>
                                 <strong>Left</strong><br>
                                 <v-avatar size="50"><img :src="require('../assets/like.png')"></v-avatar><br>

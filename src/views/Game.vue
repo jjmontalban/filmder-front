@@ -20,9 +20,60 @@
               </div>
           </div>
           <div class="text-center" v-else>
-              <h1>Listado de peliculas</h1>
               <div v-for="movie in movies" v-bind:key="movie.id">
-                  {{ movie.title }}<br>{{ movie.rating }} - {{ movie.user_rating }}
+                  <img :src="movie.img" width="15%" alt="Image Movie">
+                  <h2>{{ movie.original }}</h2>
+                  <span>in spanish</span>
+                  <h3>{{ movie.title }}</h3>
+                  <br>
+                  <span>Number of votes: {{ movie.votes }}</span><br>
+                  <span>which has a average of: {{ movie.vote_avg }}</span><br>
+                  
+                  <div v-if="movie.user_rating  === 'like'">
+                    You liked this movie and my rating was {{ movie.rating }}<br>
+                    <span class="quote" v-if="movie.rating <= 5">Good movie? Really? Don't know what movie you saw...</span>
+                    <span class="quote" v-else-if="(5 < movie.rating) && (movie.rating < 7)">Movies have to entertain, and this one does...</span>
+                    <span class="quote" v-else>What? There's something you let go. this is better than average...</span>
+                  </div>
+
+                  <div v-else-if="movie.user_rating === 'nope'">
+                    You didnt like and my rating was {{ movie.rating }}<br>  
+                    <span class="quote" v-if="movie.rating <= 5">We agree. It's not a movie to watch again...</span>
+                    <span class="quote" v-else-if="(5 < movie.rating) && (movie.rating < 7)">I recommend that you watch it again...</span>
+                    <span class="quote" v-else>Bad movie? Really??
+                        
+                    </span>
+                  </div>
+
+                  <div v-else-if="movie.user_rating === 'super'">
+                    For you this movie is the best and my rating was {{ movie.rating }}<br>
+                    <span v-if="movie.rating <= 5">
+                      <span class="quote" v-if="movie.vote_avg <= 6">Calm down. {{ movie.votes }} people can't be wrong...</span>
+                      <span class="quote" v-else>Meh. It seems you follow the herd...</span>
+                      
+                    </span>
+                    <span class="quote" v-else-if="(5 < movie.rating) && (movie.rating < 7)">I recommend that you watch it again...
+                    </span>
+                    <span class="quote" v-else>We agree. You have good taste
+      
+                    </span>
+                  </div>
+                  <div v-else>
+                    Didn't you see this movie? Let's just let it go...Anyway I scored it with {{ movie.rating }}<br>
+                    <span class="quote" v-if="movie.rating <= 5">You're not missing anything...</span>
+                    <span class="quote" v-else-if="(5 < movie.rating) && (movie.rating < 7)">I recommend that you watch it...</span>
+                    <span class="quote" v-else>Run to see it please!</span>
+                  </div>
+                  <br>
+                  <hr>
+                  <br>
+                  <br>
+              </div>
+
+              <div>
+                  ESTE ES EL RESULTADO FINAL
+                  {{ movies['result']  }}
+                  DE UN TOTAL DE {{ movies['total'] }} pelis rateradas
               </div>
           </div>
       </transition>
@@ -79,32 +130,66 @@ export default {
 
                     this.queue = this.queue.concat(list);
                     this.movies = this.movies.concat(list);
+                    this.movies['result'] = 0;
+                    this.movies['total'] = 0;
                     this.offset = 0;
 
                   }).catch(error => { console.log(error); });                
         },
 
         onSubmit(item) {
-          
-          if (item['type'] === "like") 
-            { 
-              this.movies[this.offset]['user_rating'] = 6; 
-            } 
-            else if(item['type'] === "nope") 
-            { 
-              this.movies[this.offset]['user_rating'] = 4; 
+            if(this.queue.length == 0){ 
+              this.ok = false; 
             }
-            else if(item['type'] === "super") 
-            { 
-              this.movies[this.offset]['user_rating'] = 8; 
-            }
-            else if(item['type'] === "down")
+            this.movies[this.offset]['user_rating'] = item['type'];
+            
+            switch(this.movies[this.offset]['user_rating'])
             {
-              this.movies[this.offset]['user_rating'] = 0;
+                  
+                  case 'nope':
+                        if(this.movies[this.offset]['rating'] <= 5){
+                            this.movies['result'] = this.movies['result'] + 3;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        else if(5 < this.movies[this.offset]['rating'] && this.movies[this.offset]['rating'] < 7){
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        else{
+                            this.movies['result'] = this.movies['result'] - 3;
+                            this.movies['total'] = this.movies['total'] + 1;                          
+                        }
+                        break;
+                  
+                  case 'like':
+                        if(this[this.offset]['rating'] <= 5){
+                            this.movies['result'] = this.movies['result'] - 1;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        else if(5 < this.movies[this.offset]['rating'] && this.movies[this.offset]['rating'] < 7){
+                            this.movies['result'] = this.movies['result'] + 1;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        else{
+                            this.movies['result'] = this.movies['result'] - 1;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        break;
+
+                  case 'super':
+                        if(this.movies[this.offset]['rating'] <= 6){
+                            this.movies['result'] = this.movies['result'] - 3;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        else if(5 < this.movies[this.offset]['rating'] && this.movies[this.offset]['rating'] < 7){
+                            this.movies['result'] = this.movies['result'] + 1;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+                        else{
+                            this.movies['result'] = this.movies['result'] - 2;
+                            this.movies['total'] = this.movies['total'] + 1;
+                        }
+
             }
-
-            if(this.queue.length == 0) { this.ok = false; }
-
             this.offset++;
         },
 
@@ -241,6 +326,10 @@ body {
 
 .fade-enter, .fade-leave-to {
     opacity: 0
+}
+
+span.quote {
+  font-size: 20px;
 }
 
 </style>

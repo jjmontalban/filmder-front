@@ -1,4 +1,4 @@
-# Wordpress (front Side)
+# Vuejs (front Side)
 
 Game to discover our Film Affinity created with Vue (Front) & Wordpress (Back)  with headless system. Available in [Filmder](https://filmder.jjmontalban.com)
 

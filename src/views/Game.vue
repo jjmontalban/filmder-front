@@ -105,7 +105,7 @@ export default {
     data: () => ({
       // Wordpress Posts Endpoint
       count: 10,
-      moviesUrl: "https://filmder.jjmontalban.com/wp-json/wp/v2/movies?per_page=10&orderby=rand",
+      moviesUrl: "https://jjmontalban.com/wp_filmder/wp-json/wp/v2/movies?per_page=10&orderby=rand",
       queue: [],
       movies: [],
       offset: 0,

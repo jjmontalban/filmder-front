@@ -126,7 +126,7 @@ export default {
           const list = [];
 
           axios
-              .get(this.moviesUrl)
+              .get(this.moviesUrl, {crossdomain: true})
               .then(response => {
                 for (let j = 0; j < this.count; j++) {
                     list.push({  

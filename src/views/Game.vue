@@ -105,7 +105,7 @@ export default {
     data: () => ({
       // Wordpress Posts Endpoint
       count: 10,
-      moviesUrl: "filmder.gifted-gates.82-223-12-129.plesk.page/wp-json/wp/v2/movies?per_page=10&orderby=rand",
+      moviesUrl: "https://filmder.caramelotattoo.com/wp-json/wp/v2/movies?per_page=10&orderby=rand",
       queue: [],
       movies: [],
       offset: 0,

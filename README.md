@@ -1,6 +1,6 @@
 # Vuejs (front Side)
 
-Game to discover our Film Affinity created with Vue (Front) & Wordpress (Back)  with headless system. Available in [Filmder]([https://filmder.jjmontalban.com](https://filmder-front-jjmontalban.vercel.app/))
+Game to discover our Film Affinity created with Vue (Front) & Wordpress (Back)  with headless system. Available in [Filmder](https://filmder-front-jjmontalban.vercel.app/)
 
 Backend side avaiable [here](https://github.com/jjmontalban/filmder-back)
 
